@@ -13,14 +13,13 @@ const Logger = nodeWit.Logger
 const levels = nodeWit.logLevels
 const Wit = nodeWit.Wit
 
-const movie = require('./lib/movie')
-const cinema = require('./lib/cinema')
-const templates = require('./templates')
+const logger = new Logger(levels.ERROR)
+const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
-function witProcessing (sessionId, mex) {
-  client.runActions(sessionId, mex, {}, (error, context) => {
+function witProcessing (sessionId, msg) {
+  client.runActions(sessionId, msg, {}, (error, context) => {
     if (error) console.error(error)
-  }, steps)
+  }, process.WIT_PROCESSING_STEPS)
 }
 
 // parse application/x-www-form-urlencoded
@@ -42,10 +41,10 @@ app.get('/webhook/', (req, res) => {
 })
 
 app.post('/webhook/', (req, res) => {
-  messagingEvents = req.body.entry[0].messaging
+  const messagingEvents = req.body.entry[0].messaging
 
   messagingEvents.forEach((messagingEvent) => {
-    const sender = messagingEvent.sender.id
+    // const sender = messagingEvent.sender.id
     if (messagingEvent.message && messagingEvent.message.text) {
       const sessionId = uuid.v1()
       witProcessing(sessionId, messagingEvent.message.text)

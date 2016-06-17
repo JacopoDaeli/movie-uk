@@ -1,3 +1,5 @@
+'use strict'
+
 function firstEntityValue (entities, entity) {
   const val = entities && entities[entity] &&
     Array.isArray(entities[entity]) &&

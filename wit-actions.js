@@ -1,19 +1,25 @@
+'use strict'
+
 const fbMessenger = require('./lib/fb-messenger')
 const firstEntityValue = require('./utils').firstEntityValue
+
+const movie = require('./lib/movie')
+const cinema = require('./lib/cinema')
+const templates = require('./templates')
 
 const actions = {
   say (sessionId, context, message, cb) {
     fbMessenger.send(message, cb)
   },
   merge (sessionId, context, entities, message, cb) {
-    const search_movieTitle = firstEntityValue(entities, 'movie')
-    if (search_movieTitle) context.search_movieTitle = search_movieTitle
+    const searchMovieTitle = firstEntityValue(entities, 'movie')
+    if (searchMovieTitle) context.searchMovieTitle = searchMovieTitle
 
-    const search_postCode = firstEntityValue(entities, 'location')
-    if (search_postCode) context.search_postCode = search_postCode
+    const searchPostcode = firstEntityValue(entities, 'location')
+    if (searchPostcode) context.searchPostcode = searchPostcode
 
-    const search_dateTime = firstEntityValue(entities, 'datetime')
-    if (search_dateTime) context.search_dateTime = search_dateTime
+    const searchDatetime = firstEntityValue(entities, 'datetime')
+    if (searchDatetime) context.searchDatetime = searchDatetime
 
     cb(context)
   },
@@ -22,9 +28,9 @@ const actions = {
   },
   findCinemasByMovie (sessionId, context, cb) {
     movie
-      .findByName(context.search_movieTitle)
+      .findByName(context.searchMovieTitle)
       .then((movie) => {
-        const d = new Date(context.search_dateTime)
+        const d = new Date(context.searchDatetime)
         const year = d.getFullYear()
         let month = d.getMonth() + 1
         let day = d.getDate()
@@ -33,7 +39,7 @@ const actions = {
         day = day > 9 ? day : `0${day}`
 
         return cinema
-          .findByMovieDatePostcode(movie.film_id, `${year}-${month}-${day}`, context.search_postCode)
+          .findByMovieDatePostcode(movie.film_id, `${year}-${month}-${day}`, context.searchPostcode)
       })
       .then((cinema) => {
         context.result_text = templates.byMovie(context, cinema)
@@ -47,7 +53,7 @@ const actions = {
   findCinemasByLocation (sessionId, context, cb) {
     // console.log(context)
     // cinema
-    //   .findByPostcode(context.search_postCode)
+    //   .findByPostcode(context.searchPostcode)
     //   .then((data) => {
     //     context.result_text = findCinemasTemplate(context, data)
     //     cb(context)
@@ -57,3 +63,5 @@ const actions = {
     cb(context)
   }
 }
+
+module.exports = actions
