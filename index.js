@@ -6,7 +6,6 @@ const express = require('express')
 const uuid = require('node-uuid')
 const nodeWit = require('node-wit')
 const bodyParser = require('body-parser')
-const sendTextMessage = require('./messenger').sendTextMessage
 
 const app = express()
 
