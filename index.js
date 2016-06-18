@@ -17,7 +17,7 @@ const Logger = nodeWit.Logger
 const levels = nodeWit.logLevels
 const Wit = nodeWit.Wit
 
-const logger = new Logger(!isPrd ? levels.ERROR : levels.DEBUG)
+const logger = new Logger(isPrd ? levels.ERROR : levels.DEBUG)
 const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
