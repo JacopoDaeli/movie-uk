@@ -7,7 +7,7 @@ if (['staging', 'production'].indexOf(process.env.NODE_ENV) === -1) {
 const express = require('express')
 const nodeWit = require('node-wit')
 const bodyParser = require('body-parser')
-const sessions = require('../sessions')
+const sessions = require('./sessions')
 
 const app = express()
 
