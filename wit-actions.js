@@ -10,7 +10,7 @@ const sessions = require('./sessions')
 
 const actions = {
   say (sessionId, context, message, cb) {
-    fbMessenger.send(sessions[sessionId], message, cb)
+    fbMessenger.send(sessions.list[sessionId], message, cb)
   },
   merge (sessionId, context, entities, message, cb) {
     const searchMovieTitle = firstEntityValue(entities, 'movie')

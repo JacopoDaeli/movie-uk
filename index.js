@@ -9,6 +9,8 @@ const nodeWit = require('node-wit')
 const bodyParser = require('body-parser')
 const sessions = require('./sessions')
 
+console.log(sessions)
+
 const app = express()
 
 const Logger = nodeWit.Logger
@@ -20,7 +22,7 @@ const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
   // console.log(msg)
-  const ctx = sessions[sessionId].context
+  const ctx = sessions.list[sessionId].context
   client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
   }, process.WIT_PROCESSING_STEPS)
