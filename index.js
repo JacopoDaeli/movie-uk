@@ -5,9 +5,9 @@ if (['staging', 'production'].indexOf(process.env.NODE_ENV) === -1) {
 }
 
 const express = require('express')
-const uuid = require('node-uuid')
 const nodeWit = require('node-wit')
 const bodyParser = require('body-parser')
+const sessions = require('../sessions')
 
 const app = express()
 
@@ -19,7 +19,9 @@ const logger = new Logger(levels.ERROR)
 const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
-  client.runActions(sessionId, msg, {}, (error, context) => {
+  // console.log(msg)
+  const ctx = sessions[sessionId].context
+  client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
   }, process.WIT_PROCESSING_STEPS)
 }
@@ -46,9 +48,9 @@ app.post('/webhook/', (req, res) => {
   const messagingEvents = req.body.entry[0].messaging
 
   messagingEvents.forEach((messagingEvent) => {
-    // const sender = messagingEvent.sender.id
+    const sender = messagingEvent.sender.id
     if (messagingEvent.message && messagingEvent.message.text) {
-      const sessionId = uuid.v1()
+      const sessionId = sessions.findOrCreateSession(sender)
       witProcessing(sessionId, messagingEvent.message.text)
     }
   })
