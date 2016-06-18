@@ -2,10 +2,10 @@
 FROM node:4.2.4
 
 # File Author / Maintainer
-MAINTAINER Impero
+MAINTAINER Jacopo Daeli
 
 # Expose port app is running on
-EXPOSE 40001
+EXPOSE 3000
 
 # Bundle app source
 COPY package.json /src/package.json
@@ -24,8 +24,5 @@ COPY . /src
 
 # Change working directory
 WORKDIR /src
-
-# Build app
-RUN npm run build
 
 CMD ["node", "--use_strict", "app/index.js"]
