@@ -25,4 +25,4 @@ COPY . /src
 # Change working directory
 WORKDIR /src
 
-CMD ["node", "--use_strict", "app/index.js"]
+CMD ["node", "index.js"]
