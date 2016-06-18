@@ -6,7 +6,7 @@ const firstEntityValue = require('./utils').firstEntityValue
 const movie = require('./lib/movie')
 const cinema = require('./lib/cinema')
 const templates = require('./templates')
-const sessions = require('../sessions')
+const sessions = require('./sessions')
 
 const actions = {
   say (sessionId, context, message, cb) {
