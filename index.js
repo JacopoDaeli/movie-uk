@@ -21,7 +21,7 @@ const logger = new Logger(isPrd ? levels.ERROR : levels.DEBUG)
 const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
-  // console.log(msg)
+  console.log(sessions)
   const ctx = sessions.list[sessionId].context
   client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
