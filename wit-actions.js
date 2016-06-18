@@ -13,7 +13,7 @@ const actions = {
     fbMessenger.send(sessions.list[sessionId].fbid, message, cb)
   },
   merge (sessionId, context, entities, message, cb) {
-    console.log(context, entities)
+    // console.log(context, entities)
     const searchMovieTitle = firstEntityValue(entities, 'movie')
     if (searchMovieTitle) context.searchMovieTitle = searchMovieTitle
 
