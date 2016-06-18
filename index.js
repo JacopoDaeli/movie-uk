@@ -4,12 +4,12 @@ if (['staging', 'production'].indexOf(process.env.NODE_ENV) === -1) {
   require('dotenv').config({path: `${__dirname}/.env`})
 }
 
+const isPrd = process.env.NODE_ENV === 'production'
+
 const express = require('express')
 const nodeWit = require('node-wit')
 const bodyParser = require('body-parser')
 const sessions = require('./sessions')
-
-console.log(sessions)
 
 const app = express()
 
@@ -17,7 +17,7 @@ const Logger = nodeWit.Logger
 const levels = nodeWit.logLevels
 const Wit = nodeWit.Wit
 
-const logger = new Logger(levels.ERROR)
+const logger = new Logger(isPrd ? levels.ERROR : levels.DEBUG)
 const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
