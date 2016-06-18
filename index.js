@@ -1,6 +1,8 @@
 'use strict'
 
-require('dotenv').config({path: `${__dirname}/.env`})
+if (['staging', 'production'].indexOf(process.env.NODE_ENV) === -1) {
+  require('dotenv').config({path: `${__dirname}/.env`})
+}
 
 const express = require('express')
 const uuid = require('node-uuid')
