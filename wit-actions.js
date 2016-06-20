@@ -28,7 +28,10 @@ const actions = {
   error (sessionId, context, error) {
     fbMessenger.send(error.message)
   },
-  findCinemasByMovie (sessionId, context, cb) {
+  findCinemasByMovie (sessionId, _context, cb) {
+    const context = Object.assign({}, _context)
+    delete sessions.list[sessionId]
+
     movie
       .findByName(context.searchMovieTitle)
       .then((movie) => {
