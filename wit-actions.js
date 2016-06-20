@@ -30,8 +30,7 @@ const actions = {
   },
   findCinemasByMovie (sessionId, _context, cb) {
     const context = Object.assign({}, _context)
-    delete sessions.list[sessionId]
-
+    sessions.list[sessionId].context = {}
     movie
       .findByName(context.searchMovieTitle)
       .then((movie) => {
