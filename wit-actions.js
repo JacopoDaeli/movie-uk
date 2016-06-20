@@ -44,11 +44,11 @@ const actions = {
           .findByMovieDatePostcode(movie.film_id, `${year}-${month}-${day}`, context.searchPostcode)
       })
       .then((cinema) => {
-        context.result_text = templates.byMovie(context, cinema)
+        context.resultText = templates.byMovie(context, cinema)
         cb(context)
       })
       .catch((err) => {
-        context.result_text = `${err.message}.`
+        context.resultText = `${err.message}.`
         cb(context)
       })
   },
@@ -57,11 +57,11 @@ const actions = {
     // cinema
     //   .findByPostcode(context.searchPostcode)
     //   .then((data) => {
-    //     context.result_text = findCinemasTemplate(context, data)
+    //     context.resultText = findCinemasTemplate(context, data)
     //     cb(context)
     //   })
 
-    context.result_text = 'NOT_IMPLEMENTED'
+    context.resultText = 'NOT_IMPLEMENTED'
     cb(context)
   }
 }
