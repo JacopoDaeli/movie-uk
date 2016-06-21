@@ -2,7 +2,7 @@
 
 const moment = require('moment')
 
-exports.byMovie = function (context, cinema) {
+exports.cinemasByMovie = function (context, cinema) {
   const movieList = Object.keys(cinema.films)
   const movie = cinema.films[movieList[0]]
 
@@ -13,6 +13,6 @@ exports.byMovie = function (context, cinema) {
   return text
 }
 
-exports.byLocation = function (context, data) {
-  return JSON.stringify(data)
+exports.cinemasByLocation = function (context, cinema) {
+  return JSON.stringify(cinema)
 }

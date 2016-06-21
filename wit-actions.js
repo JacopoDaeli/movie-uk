@@ -2,6 +2,8 @@
 
 const fbMessenger = require('./lib/fb-messenger')
 const firstEntityValue = require('./utils').firstEntityValue
+const formatSearchDatetime = require('./utils').formatSearchDatetime
+const sanitizePostcode = require('./utils').sanitizePostcode
 
 const movie = require('./lib/movie')
 const cinema = require('./lib/cinema')
@@ -34,21 +36,14 @@ const actions = {
     movie
       .findByName(context.searchMovieTitle)
       .then((movie) => {
-        const d = new Date(context.searchDatetime)
-        const year = d.getFullYear()
-        let month = d.getMonth() + 1
-        let day = d.getDate()
-
-        month = month > 9 ? month : `0${month}`
-        day = day > 9 ? day : `0${day}`
-
-        const postcode = context.searchPostcode.replace(/\s/g, '')
+        const datetime = formatSearchDatetime(context.searchDatetime)
+        const postcode = sanitizePostcode(context.searchPostcode)
 
         return cinema
-          .findByMovieDatePostcode(movie.Film_id, `${year}-${month}-${day}`, postcode)
+          .findByMovieDatePostcode(movie.Film_id, datetime, postcode)
       })
       .then((cinema) => {
-        context.resultText = templates.byMovie(context, cinema)
+        context.resultText = templates.cinemasByMovie(context, cinema)
         cb(context)
       })
       .catch((err) => {
@@ -59,12 +54,18 @@ const actions = {
   findCinemasByLocation (sessionId, context, cb) {
     context.lastAction = 'findCinemasByLocation'
 
-    const postcode = context.searchPostcode.replace(/\s/g, '')
+    const postcode = sanitizePostcode(context.searchPostcode)
     cinema
       .findByPostcode(postcode)
-      .then((data) => {
-        context.resultText = templates.byLocation(context, data)
-        cb(context)
+      .then((cinemas) => {
+        const datetime = formatSearchDatetime(context.searchDatetime)
+
+        return movie
+          .findByCinemaDate(cinemas[0].Id, datetime)
+          .then((cinema) => {
+            context.resultText = templates.cinemasByLocation(context, cinema)
+            cb(context)
+          })
       })
       .catch((err) => {
         context.resultText = `${err.message}.`
