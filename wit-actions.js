@@ -28,9 +28,7 @@ const actions = {
   error (sessionId, context, error) {
     fbMessenger.send(error.message)
   },
-  findCinemasByMovie (sessionId, _context, cb) {
-    const context = Object.assign({}, _context)
-    sessions.list[sessionId].context = {}
+  findCinemasByMovie (sessionId, context, cb) {
     movie
       .findByName(context.searchMovieTitle)
       .then((movie) => {
@@ -49,10 +47,12 @@ const actions = {
       })
       .then((cinema) => {
         context.resultText = templates.byMovie(context, cinema)
+        delete sessions.list[sessionId]
         cb(context)
       })
       .catch((err) => {
         context.resultText = `${err.message}.`
+        delete sessions.list[sessionId]
         cb(context)
       })
   },
