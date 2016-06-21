@@ -19,10 +19,15 @@ exports.cinemasByLocation = function (context, cinema) {
 
   let text = `The closest cinema to your postcode is ${cinema.name}. `
   text += `Here the address of the cinema: ${cinema.address1.replace(/<br \/>/g, '')}, ${cinema.postcode}.\n`
-  text += `This cinema is currently showing: \n`
-  filmIds.forEach((id, index) => {
-    if (index > 5) return
-    text += `${films[id].film_data.film_title}\n`
-  })
+  text += `This cinema is currently showing: `
+  if (filmIds > 1) {
+    text += `\n`
+    filmIds.forEach((id, index) => {
+      if (index > 5) return
+      text += `- ${films[id].film_data.film_title}\n`
+    })
+  } else {
+    text += `${films[filmIds[0]].film_data.film_title}\n`
+  }
   return text
 }
