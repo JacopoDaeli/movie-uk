@@ -21,11 +21,7 @@ const logger = new Logger(isPrd ? levels.ERROR : levels.DEBUG)
 const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 
 function witProcessing (sessionId, msg) {
-  // console.log(sessions)
   const ctx = sessions.list[sessionId].context
-  console.log('Running witProcessing...')
-  console.log(sessionId)
-  console.log(ctx)
   client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
     sessions.list[sessionId].context = context
@@ -34,8 +30,6 @@ function witProcessing (sessionId, msg) {
     if (context.lastAction) {
       delete sessions.list[sessionId]
     }
-
-    console.log('witProcessing completed...')
   }, process.WIT_PROCESSING_STEPS)
 }
 
@@ -64,10 +58,6 @@ app.post('/webhook/', (req, res) => {
     const sender = messagingEvent.sender.id
     if (messagingEvent.message && messagingEvent.message.text) {
       const sessionId = sessions.findOrCreateSession(sender)
-      // if (sessions.list[sessionId].lastAction) {
-      //   sessions.list[sessionId].lastAction = null
-      //   sessions.list[sessionId].context = {}
-      // }
       witProcessing(sessionId, messagingEvent.message.text)
     }
   })

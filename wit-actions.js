@@ -29,7 +29,6 @@ const actions = {
     fbMessenger.send(error.message)
   },
   findCinemasByMovie (sessionId, context, cb) {
-    // sessions.list[sessionId].lastAction = 'findCinemasByMovie'
     context.lastAction = 'findCinemasByMovie'
 
     movie
@@ -58,7 +57,6 @@ const actions = {
       })
   },
   findCinemasByLocation (sessionId, context, cb) {
-    // sessions.list[sessionId].lastAction = 'findCinemasByLocation'
     context.lastAction = 'findCinemasByLocation'
 
     const postcode = context.searchPostcode.replace(/\s/g, '')
