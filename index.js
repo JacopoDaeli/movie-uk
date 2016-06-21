@@ -31,7 +31,7 @@ function witProcessing (sessionId, msg) {
     sessions.list[sessionId].context = context
 
     // if done, reset the user session
-    if (context.done) {
+    if (context.lastAction) {
       delete sessions[sessionId]
     }
 
