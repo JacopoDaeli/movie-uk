@@ -32,7 +32,7 @@ function witProcessing (sessionId, msg) {
 
     // if done, reset the user session
     if (context.lastAction) {
-      delete sessions[sessionId]
+      delete sessions.list[sessionId]
     }
 
     console.log('witProcessing completed...')
