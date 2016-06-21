@@ -45,7 +45,7 @@ const actions = {
         const postcode = context.searchPostcode.replace(/\s/g, '')
 
         return cinema
-          .findByMovieDatePostcode(movie.film_id, `${year}-${month}-${day}`, postcode)
+          .findByMovieDatePostcode(movie.Film_id, `${year}-${month}-${day}`, postcode)
       })
       .then((cinema) => {
         context.resultText = templates.byMovie(context, cinema)
