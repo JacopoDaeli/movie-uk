@@ -63,7 +63,7 @@ const actions = {
         return movie
           .findByCinemaDate(cinemas[0].Id, datetime)
           .then((cinema) => {
-            context.resultText = templates.cinemasByLocation(context, cinema)
+            context.resultText = templates.cinemasByLocation(context, cinema[cinemas[0].Id])
             cb(context)
           })
       })

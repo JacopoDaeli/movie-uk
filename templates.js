@@ -14,5 +14,15 @@ exports.cinemasByMovie = function (context, cinema) {
 }
 
 exports.cinemasByLocation = function (context, cinema) {
-  return JSON.stringify(cinema)
+  const films = cinema.films
+  const filmIds = Object.keys(films)
+
+  let text = `The closest cinema to your postcode is ${cinema.name}. `
+  text += `Here the address of the cinema: ${cinema.address1.replace(/<br \/>/g, '')}, ${cinema.postcode}.\n`
+  text += `This cinema is currently showing: \n`
+  filmIds.forEach((id, index) => {
+    if (index > 5) return
+    text += `${films[id].film_data.film_title}\n`
+  })
+  return text
 }
