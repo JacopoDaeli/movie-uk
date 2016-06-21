@@ -29,7 +29,8 @@ const actions = {
     fbMessenger.send(error.message)
   },
   findCinemasByMovie (sessionId, context, cb) {
-    sessions.list[sessionId].lastAction = 'findCinemasByMovie'
+    // sessions.list[sessionId].lastAction = 'findCinemasByMovie'
+    context.lastAction = 'findCinemasByMovie'
 
     movie
       .findByName(context.searchMovieTitle)
@@ -49,7 +50,6 @@ const actions = {
       })
       .then((cinema) => {
         context.resultText = templates.byMovie(context, cinema)
-        sessions.list[sessionId]
         cb(context)
       })
       .catch((err) => {
@@ -58,7 +58,8 @@ const actions = {
       })
   },
   findCinemasByLocation (sessionId, context, cb) {
-    sessions.list[sessionId].lastAction = 'findCinemasByLocation'
+    // sessions.list[sessionId].lastAction = 'findCinemasByLocation'
+    context.lastAction = 'findCinemasByLocation'
 
     const postcode = context.searchPostcode.replace(/\s/g, '')
     cinema
