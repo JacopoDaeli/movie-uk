@@ -29,6 +29,12 @@ function witProcessing (sessionId, msg) {
   client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
     sessions.list[sessionId].context = context
+
+    // if done, reset the user session
+    if (context.done) {
+      delete sessions[sessionId]
+    }
+
     console.log('witProcessing completed...')
   }, process.WIT_PROCESSING_STEPS)
 }
@@ -58,10 +64,10 @@ app.post('/webhook/', (req, res) => {
     const sender = messagingEvent.sender.id
     if (messagingEvent.message && messagingEvent.message.text) {
       const sessionId = sessions.findOrCreateSession(sender)
-      if (sessions.list[sessionId].lastAction) {
-        sessions.list[sessionId].lastAction = null
-        sessions.list[sessionId].context = {}
-      }
+      // if (sessions.list[sessionId].lastAction) {
+      //   sessions.list[sessionId].lastAction = null
+      //   sessions.list[sessionId].context = {}
+      // }
       witProcessing(sessionId, messagingEvent.message.text)
     }
   })
