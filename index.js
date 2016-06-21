@@ -23,11 +23,13 @@ const client = new Wit(process.env.WIT_TOKEN, require('./wit-actions'), logger)
 function witProcessing (sessionId, msg) {
   // console.log(sessions)
   const ctx = sessions.list[sessionId].context
+  console.log('Running witProcessing...')
   console.log(sessionId)
   console.log(ctx)
   client.runActions(sessionId, msg, ctx, (error, context) => {
     if (error) console.error(error)
     sessions.list[sessionId].context = context
+    console.log('witProcessing completed...')
   }, process.WIT_PROCESSING_STEPS)
 }
 
