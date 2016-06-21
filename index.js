@@ -58,6 +58,10 @@ app.post('/webhook/', (req, res) => {
     const sender = messagingEvent.sender.id
     if (messagingEvent.message && messagingEvent.message.text) {
       const sessionId = sessions.findOrCreateSession(sender)
+      if (sessions.list[sessionId].lastAction) {
+        sessions.list[sessionId].lastAction = null
+        sessions.list[sessionId].context = {}
+      }
       witProcessing(sessionId, messagingEvent.message.text)
     }
   })
