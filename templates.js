@@ -14,5 +14,5 @@ exports.byMovie = function (context, cinema) {
 }
 
 exports.byLocation = function (context, data) {
-  return ''
+  return JSON.stringify(data)
 }

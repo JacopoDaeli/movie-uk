@@ -56,17 +56,21 @@ const actions = {
         cb(context)
       })
   },
-  findCinemasByLocation (sessionId, context, cb) {
-    // console.log(context)
-    // cinema
-    //   .findByPostcode(context.searchPostcode)
-    //   .then((data) => {
-    //     context.resultText = findCinemasTemplate(context, data)
-    //     cb(context)
-    //   })
+  findCinemasByLocation (sessionId, _context, cb) {
+    const context = Object.assign({}, _context)
+    sessions.list[sessionId].context = {}
 
-    context.resultText = 'NOT_IMPLEMENTED'
-    cb(context)
+    const postcode = context.searchPostcode.replace(/\s/g, '')
+    cinema
+      .findByPostcode(postcode)
+      .then((data) => {
+        context.resultText = templates.byLocation(context, data)
+        cb(context)
+      })
+      .catch((err) => {
+        context.resultText = `${err.message}.`
+        cb(context)
+      })
   }
 }
 
