@@ -46,3 +46,6 @@ jspm_packages
 
 # Deploy
 dokku-deploy
+
+# Private
+curl.md
